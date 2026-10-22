@@ -33,16 +33,9 @@
 | 第二轮：仅含缺陷时仍然通过的运行 | <链接> |
 | 第二轮：补测试后失败的运行 | <链接> |
 | 第二轮：撤销缺陷后通过的运行 | <链接> |
-| 未合入分支上的 tag 被 release gate 拒绝的运行 | [release #2](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39761436755)：临时 tag `v0.0.0` 指向未合入提交 `e361c4ea8559f98ae8398584f2fa3e0bfb2eb63d`；Release gate 失败，后续构建和发布步骤跳过，未生成 Release；远端临时 tag 和分支已清理，运行记录保留。 |
-| Release v1.0.0 | [v1.0.0](https://github.com/workonemptymirror/ops-lab1-10/releases/tag/v1.0.0)，2026-10-22 18:12:03（UTC+8）发布；两个附件已下载且校验通过。 |
-| Release v1.0.1 | [v1.0.1](https://github.com/workonemptymirror/ops-lab1-10/releases/tag/v1.0.1)，2026-10-22 20:10:07（UTC+8）发布；两个附件已下载且校验通过。 |
-
-### 组员 C：发布记录
-
-- 发布工作流由 `azaq-q` 发起的 [PR #2](https://github.com/workonemptymirror/ops-lab1-10/pull/2) 引入，已于 2026-10-21 16:06:53（UTC+8）合入 main；GitHub reviews API 返回空列表，未查到 D 的正式审批记录，不能据此宣称审批要求已满足。
-- 2026-10-22 核对时，main 为 `2256e1691516fcf08ad693c139b972808c72a837`，对应 [main CI #14](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39741812593) 已成功。
-- 随后从上述 main 提交发布 v1.0.0，[release #1](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39761260459) 成功；未合入提交的拒绝演练证据见上表。
-- v1.0.0 发布后立即下载 `.tar.gz` 与 `.tar.gz.sha256`，`sha256sum -c` 输出 `enroll-conflict_1.0.0_linux_amd64.tar.gz: OK`；原始校验值和运行链接已填写到第 4 节。D 的 [PR #8](https://github.com/workonemptymirror/ops-lab1-10/pull/8) 已合入，main [CI](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39775019456) 通过后，从 `6a9d75cfcad7fd34153d98ad44fb041bd31d3c92` 发布 v1.0.1。PR #8 的 reviews API 返回空列表，未查到正式审批记录。
+| 未合入分支上的 tag 被 release gate 拒绝的运行 | <链接> |
+| Release v1.0.0 | <链接> |
+| Release v1.0.1 | <链接> |
 
 ## 4. 追溯与运行
 
@@ -50,70 +43,34 @@
 
 | 项 | v1.0.0 | v1.0.1 |
 |---|---|---|
-| 版本号 | `1.0.0` | `1.0.1` |
-| 构建号 | `1`（release 工作流） | `3`（release 工作流；第 2 次为拒绝演练） |
-| 提交号（SHA） | `2256e1691516fcf08ad693c139b972808c72a837` | `6a9d75cfcad7fd34153d98ad44fb041bd31d3c92` |
-| 引入该提交的 PR | [PR #6](https://github.com/workonemptymirror/ops-lab1-10/pull/6) | [PR #8](https://github.com/workonemptymirror/ops-lab1-10/pull/8) |
-| 构建它的 Actions 运行（`trace.sh` 给出的链接） | [release #1](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39761260459)（已从 BUILD_INFO 核对 run_id） | [release #3](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39776115322) |
-| 制品 sha256（发布当时，取自 Release 里的 .sha256） | `fb8d54ad4a42a754ca2b161792efd8070b9dadc8913745995adb95ea1afb1c9c` | `be10a6fe3eb0972b62b6b4cef138ee5c176dd6641966f5d0e39670f9d6f0b718` |
+| 版本号 | <填写> | <填写> |
+| 构建号 | <填写> | <填写> |
+| 提交号（SHA） | <填写> | <填写> |
+| 引入该提交的 PR | <编号与链接> | <编号与链接> |
+| 构建它的 Actions 运行（`trace.sh` 给出的链接） | <链接> | <链接> |
+| 制品 sha256（发布当时，取自 Release 里的 .sha256） | <填写> | <填写> |
 
-仅凭构建号不能唯一确定运行，因为每个工作流分别计数。构建号 `1` 在 ci 中对应 [ci #1](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39562902328)（pull_request），在 release 中对应 [release #1](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39761260459)（v1.0.0）；应使用 BUILD_INFO 中的 run_id 定位运行。
+仅凭构建号能否唯一确定是哪次运行？v1.0.0 的构建号在 `ci` 和 `release` 的运行列表中各对应哪次运行？<填写>
 
-发布 v1.0.1 之后重新下载 v1.0.0 的附件，计算得到的 sha256：`fb8d54ad4a42a754ca2b161792efd8070b9dadc8913745995adb95ea1afb1c9c`。与上表中发布当时的值一致；重新下载的附件校验及 trace 均通过。
+发布 v1.0.1 之后重新下载 v1.0.0 的附件，计算得到的 sha256：<填写>。与上表中发布当时的值是否一致？<填写>
 
-`trace.sh` 输出（v1.0.0，退出码 0）：
+`trace.sh` 输出（v1.0.0）：
 
 ```text
-== 1. 校验和
-enroll-conflict_1.0.0_linux_amd64.tar.gz: OK
-== 2. 制品里的 BUILD_INFO
-name=enroll-conflict
-version=1.0.0
-build_no=1
-run_id=39761260459
-commit=2256e1691516fcf08ad693c139b972808c72a837
-go=go1.26.9
-== 3. 提交 2256e1691516fcf08ad693c139b972808c72a837
-作者: shannonpurnomo <purnomo.shannon@gmail.com>
-时间: 2026-10-22T15:37:41+08:00
-标题: feat: 优化冲突检测逻辑
-主干: 该提交在 origin/main 的历史上
-指向它的 tag: v1.0.0
-版本号: 1.0.0    构建号: 1
-提交页面（含关联的 PR）: https://github.com/workonemptymirror/ops-lab1-10/commit/2256e1691516fcf08ad693c139b972808c72a837
-构建它的运行: https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39761260459
+<粘贴>
 ```
 
-`trace.sh` 输出（v1.0.1，退出码 0）：
+`trace.sh` 输出（v1.0.1）：
 
 ```text
-== 1. 校验和
-enroll-conflict_1.0.1_linux_amd64.tar.gz: OK
-== 2. 制品里的 BUILD_INFO
-name=enroll-conflict
-version=1.0.1
-build_no=3
-run_id=39776115322
-commit=6a9d75cfcad7fd34153d98ad44fb041bd31d3c92
-go=go1.26.9
-== 3. 提交 6a9d75cfcad7fd34153d98ad44fb041bd31d3c92
-作者: TOOTHACHE <toothache@sjtu.edu.cn>
-时间: 2026-10-22T20:01:21+08:00
-标题: Merge pull request #8 from workonemptymirror/docs/version-and-rollback
-主干: 该提交在 origin/main 的历史上
-指向它的 tag: v1.0.1
-版本号: 1.0.1    构建号: 3
-提交页面（含关联的 PR）: https://github.com/workonemptymirror/ops-lab1-10/commit/6a9d75cfcad7fd34153d98ad44fb041bd31d3c92
-构建它的运行: https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39776115322
+<粘贴>
 ```
 
 任务 6 第 4 步，两次 `/version` 的输出：
 
 ```text
-运行 v1.0.1 时：
-{"version": "1.0.1", "commit": "6a9d75cfcad7fd34153d98ad44fb041bd31d3c92", "build_no": "3", "go": "go1.26.9"}
-停止 v1.0.1，使用首次下载的 v1.0.0 附件回退后：
-{"version": "1.0.0", "commit": "2256e1691516fcf08ad693c139b972808c72a837", "build_no": "1", "go": "go1.26.9"}
+<运行 v1.0.1 时>
+<换回 v1.0.0 后>
 ```
 
 ## 5. 数据
@@ -173,9 +130,7 @@ go=go1.26.9
 
 **问题 4：发布与回退。** 假设 v1.0.1 发布后发现缺陷，应当如何处理？为什么不应删除 v1.0.1 的 tag、再用同一版本号重新发布？任务 6 中将服务从 v1.0.1 切换回 v1.0.0 时，使用的是哪个文件，是否需要重新构建？请用两次 `/version` 的输出说明。如果改为从源码重新构建 v1.0.0，得到的文件与原附件是否相同（参考问题 3）？最后，如果有人删除 v1.0.0 的附件，换上一个新文件和对应的新 `.sha256`，`trace.sh` 能否发现？本组在第 4 节记录的值能否发现？可以查阅 GitHub 的 Immutable releases 设置的用途。
 
-所用数据：第 4 节两个 Release 的 BUILD_INFO、两次实际 `/version` 输出，以及 v1.0.0 首次发布和重新下载后相同的 SHA-256（`fb8d54ad…afb1c9c`）。版本切换由 C 使用正式附件补充验证，进程均已停止；问题 3 的重复构建哈希表仍待 A、D 补充。
-
-若 v1.0.1 出现缺陷，应停止该版本并部署已经验证的 v1.0.0 制品，修复通过 PR、CI 和审批后使用新的版本号发布，同时保留原版本的追溯记录。不能删除并复用 v1.0.1 的 tag，因为同一版本号对应不同提交或附件会使下载缓存、部署记录和故障定位产生歧义。回退应使用首次下载并校验保存的 `enroll-conflict_1.0.0_linux_amd64.tar.gz` 中的二进制，无需重新构建；实测 `/version` 从 version=`1.0.1`、commit=`6a9d75cf…`、build_no=`3` 变为 version=`1.0.0`、commit=`2256e169…`、build_no=`1`，均与对应 BUILD_INFO 一致，证明版本切换成功。从源码重新构建只有在源码及工作区状态、工具链、目标平台和 VERSION、BUILD_NO、RUN_ID、COMMIT 等输入一致时才可能得到相同文件，不能仅凭 tag 相同就认定字节相同，需结合问题 3 实测哈希判断。当前 `scripts/trace.sh` 校验附件与同目录校验文件是否一致，并检查 BUILD_INFO 的提交存在且属于 main，但不验证二进制内容与该提交是否对应；因此同时替换附件和校验文件、并保留合法提交信息时，脚本可能仍然通过。若首次发布的 SHA-256 独立保存在第 4 节且该记录未被篡改，再次下载的文件发生变化就能通过与原值比较发现，这也是发布时立即记录校验值的必要性。
+<填写>
 
 ## 7. 选做记录
 
