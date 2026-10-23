@@ -26,9 +26,9 @@
 |---|---|
 | 规则集里启用的规则 | <列出规则名、审批人数和必需检查的名称> |
 | 组长直接 `git push origin main` 被拒的终端输出 | <粘贴文本> |
-| 第一轮：失败的 PR 运行 | <链接> |
-| 第一轮：修复后通过的 PR 运行 | <链接> |
-| 第一轮：合入 main 后的运行（含制品） | <链接> |
+| 第一轮：失败的 PR 运行 | [PR #4 的 ci #8（首次失败）](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39716609805)；[ci #37（最终修复前的失败）](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39912522672/job/120278535429) |
+| 第一轮：修复后通过的 PR 运行 | [PR #4 的 ci #38，通过](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39913190130/job/120280664938)，修复提交为 `2eea6056f51d2a6c98b37a804d98ed356ada387d` |
+| 第一轮：合入 main 后的运行（含制品） | [ci #39，通过，页面显示 1 个 artifact](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39915507803)，main 合并提交为 `a09e63d7e0609c75f49b57bfd9cbe8bff27681e4` |
 | 第二轮：找到的缺陷，以及现有测试为何无法发现它 | <一两句话> |
 | 第二轮：仅含缺陷时仍然通过的运行 | <链接> |
 | 第二轮：补测试后失败的运行 | <链接> |
@@ -37,7 +37,7 @@
 | Release v1.0.0 | [v1.0.0](https://github.com/workonemptymirror/ops-lab1-10/releases/tag/v1.0.0) |
 | Release v1.0.1 | [v1.0.1](https://github.com/workonemptymirror/ops-lab1-10/releases/tag/v1.0.1) |
 
-演练关联记录：第一轮修复 PR 为 [#5](https://github.com/workonemptymirror/ops-lab1-10/pull/5)，第二轮 PR 为 [#6](https://github.com/workonemptymirror/ops-lab1-10/pull/6)。已核对第二轮存在 [ci #12 失败运行](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39740432508/job/119696068823)和 [ci #13 成功运行](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39741319996/job/119698950427)，两次运行均关联 PR #6，不能用作第一轮 PR #5 的失败与通过证据。ci #12 具体失败步骤及其是否对应“补测试后失败”，仍需日志确认；第二轮“仅含缺陷时仍通过”的运行也待补。
+演练关联记录：第一轮以最终合入 main 的 [PR #4](https://github.com/workonemptymirror/ops-lab1-10/pull/4) 为主线，修复过程还涉及 [PR #5](https://github.com/workonemptymirror/ops-lab1-10/pull/5)，后者合入的是功能分支。第二轮为 [PR #6](https://github.com/workonemptymirror/ops-lab1-10/pull/6)，其 [ci #12 失败运行](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39740432508/job/119696068823)和 [ci #13 成功运行](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39741319996/job/119698950427)均属于第二轮；ci #12 是否对应“补测试后失败”仍需其步骤日志确认，第二轮“仅含缺陷时仍通过”的运行也待补。另一次 [PR #9](https://github.com/workonemptymirror/ops-lab1-10/pull/9) 在 PR CI 失败的情况下合入 main，随后 main CI 也失败；该记录作为门禁未达到预期的实际情况保留，不能当作“失败时被成功阻止合并”的证据，最终通过 PR #4 修复并恢复 main。
 
 ## 4. 追溯与运行
 
@@ -125,18 +125,21 @@ go=go1.26.9
 
 时间统一为北京时间（UTC+8）。PR 创建与合并时间、提交时间、Release 发布时间和 CI 时长取自 GitHub 公开页面；提交到发布的间隔按“对应 Release 发布时间减去 PR 第一个提交的提交时间（committedDate）”计算，不使用 PR 创建时间代替首次提交时间。
 
-第一轮 gate 演练的时间线：
+第一轮 gate 演练的时间线（以 PR #4 为主线）：
 
-| 事件 | 时间 | 链接 |
+| 事件 | 时间（UTC+8） | 链接 |
 |---|---|---|
-| 发起 PR（最初失败分支） | 2026-10-22 00:42:20 | [PR #3](https://github.com/workonemptymirror/ops-lab1-10/pull/3) |
-| 第一次 `ci` 失败（运行结束） | 待补精确结束时间；页面显示触发时间为 2026-10-22 00:42:24、运行时长 12 秒，此处不将触发时间误作结束时间 | [ci #7](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39637166239) |
-| 发起第一轮修复 PR | 2026-10-22 11:29:53 | [PR #5](https://github.com/workonemptymirror/ops-lab1-10/pull/5) |
-| 推送修复提交 | 待核对实际推送时间；PR #5 的提交列表中存在 `fix: 修复 weeksOverlap 逻辑`（`db7b279…`），提交时间不能直接替代实际推送时间 | [PR #5 提交列表](https://github.com/workonemptymirror/ops-lab1-10/pull/5/commits) |
-| `ci` 通过（运行结束） | 本次采集未找到可确认属于第一轮修复后、指向 main 的 PR 成功运行，待补证据 | [PR #4](https://github.com/workonemptymirror/ops-lab1-10/pull/4)、[PR #5](https://github.com/workonemptymirror/ops-lab1-10/pull/5) |
-| 合入 main | 本次采集未确认第一轮修复通过 PR 合入 main 的记录；不能用 PR #5 的合并时间代替 | [PR #4](https://github.com/workonemptymirror/ops-lab1-10/pull/4)、[PR #5](https://github.com/workonemptymirror/ops-lab1-10/pull/5) |
+| 发起 PR | 2026-10-22 11:23:53 | [PR #4](https://github.com/workonemptymirror/ops-lab1-10/pull/4) |
+| 第一次 `ci` 失败（运行结束） | 精确结束时间待补；已确认 ci #8 于 2026-10-22 11:23:58 触发，时长 12 秒且结果失败 | [ci #8](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39716609805) |
+| 最终修复前最后一次 `ci` 失败 | ci #37 于 2026-10-23 14:36:23 触发，时长 17 秒且结果失败；精确结束时间待补 | [ci #37](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39912522672/job/120278535429) |
+| 推送修复提交 | 修复提交 `2eea605…` 的提交时间为 2026-10-23 14:42:33，关联的 PR CI 于 14:42:56 触发；实际推送的精确时间待补，不将提交时间等同于推送时间 | [修复提交](https://github.com/workonemptymirror/ops-lab1-10/commit/2eea6056f51d2a6c98b37a804d98ed356ada387d) |
+| `ci` 通过（运行结束） | 精确结束时间待补；ci #38 于 2026-10-23 14:42:56 触发，时长 19 秒且结果通过 | [ci #38](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39913190130/job/120280664938) |
+| 合入 main | 2026-10-23 15:05:00；合并提交 `a09e63d7e0609c75f49b57bfd9cbe8bff27681e4` | [PR #4](https://github.com/workonemptymirror/ops-lab1-10/pull/4) |
+| 合入 main 后的 CI 与制品 | ci #39 于 2026-10-23 15:05:02 触发，时长 27 秒，通过且产出 1 个 artifact | [ci #39](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39915507803) |
 
-记录核对：PR #3、#4 在本次采集时仍为 Open；PR #5 虽显示 Merged，但目标分支是 `fitur/gate-round-1-fix`，不是 `main`，合并时间为 2026-10-22 14:04:29。因此上述记录尚不足以证明第一轮已完成“失败 → 修复通过 → 经 PR 合入 main”的全过程，也不足以精确计算人工修改时间和 CI 等待时间。该部分应在补齐实际运行与合并记录后完善，不将第二轮 PR #6 的成功结果挪作第一轮证据。
+从 PR #4 创建到合入 main 共 27 小时 41 分 7 秒；最后一次失败运行 ci #37 与修复后通过运行 ci #38 的触发时间相隔 6 分 33 秒。二者运行时长分别为 17 秒和 19 秒，合计 36 秒，但该值不是包含排队、提交和评审在内的完整等待时间；公开页面未提供本次采集所需的精确结束时间，不能将触发时间加运行时长直接当作结束时间，也不能将上述总历时全部归因于失败或人工修改。
+
+过程说明：早期 [PR #3](https://github.com/workonemptymirror/ops-lab1-10/pull/3) 是最初失败分支；[PR #5](https://github.com/workonemptymirror/ops-lab1-10/pull/5) 于 2026-10-22 14:04:29 合入功能分支，不是 main。之后 [PR #9](https://github.com/workonemptymirror/ops-lab1-10/pull/9) 于 2026-10-23 10:14:58 将故意缺陷合入 main，其 PR ci #20 和 main ci #21 均失败。最终修复时，先将 main 同步至 `fitur/gate-round-1-fix`，移除合并结果中的单双周误判逻辑并保留测试，得到修复提交 `2eea605…`；PR #4 的 ci #38 和合并后的 ci #39 通过。因此本次记录已能证明代码修复后检查通过且主干恢复，但 PR #9 表明此前合并门禁未达到“失败不得合并”的要求，仍需核对规则与绕过权限，不能仅凭后续绿色运行认定门禁设置一直有效。
 
 提交到发布的间隔，记录三个合入 main 的 PR：
 
@@ -148,7 +151,7 @@ go=go1.26.9
 
 上表三个 PR 各只有一个提交；已通过 Git 提交历史确认其合并提交包含在对应 Release 的提交历史中。PR #1、#2 对应首次包含它们的 v1.0.0，PR #8 对应 v1.0.1。间隔包含修改、评审、等待和人为安排发布时间等因素，不能将全部间隔归因于 CI。
 
-`ci` 工作流的运行时长（从 Actions 页面读取）：以下列出本次采集时工作流列表可见的全部 19 次运行（ci #1～#19），包括成功和失败运行；后续如有新增运行需继续补充。
+`ci` 工作流的运行时长（从 Actions 页面读取）：截至本次采集，按运行号列出 ci #1～#39，包括成功和失败运行。每行是一条运行记录，不将同一运行的 Re-run Attempt 另计为新构建号；后续新增运行需继续补充。
 
 | 运行 | 事件（PR / push） | 时长 | 备注 |
 |---|---|---|---|
@@ -168,11 +171,31 @@ go=go1.26.9
 | [ci #14](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39741812593) | push | 23s | 通过；main |
 | [ci #15](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39762334382) | PR | 17s | 通过；PR #7 |
 | [ci #16](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39774035939) | PR | 16s | 通过；PR #8 |
-| [ci #17](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39775019456) | push | 19s | 通过；main |
+| [ci #17](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39775019456) | push | 24s | 通过；main；此处保留原始尝试时长，Attempt 2 的哈希见问题 3 |
 | [ci #18](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39776588588) | PR | 11s | 通过；PR #7 |
 | [ci #19](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39777111418) | PR | 15s | 通过；PR #7 |
+| [ci #20](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39888499021) | PR | 18s | 失败；PR #9 |
+| [ci #21](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39888532447) | push | 20s | 失败；main |
+| [ci #22](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39899961103) | PR | 17s | 失败；PR #10 |
+| [ci #23](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39900902699) | PR | 15s | 失败；PR #10 |
+| [ci #24](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39901343891) | PR | 12s | 失败；PR #10 |
+| [ci #25](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39902613991) | PR | 16s | 失败；PR #10 |
+| [ci #26](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39905162504) | PR | 13s | 失败；PR #11 |
+| [ci #27](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39905375028) | PR | 18s | 失败；PR #11 |
+| [ci #28](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39905715081) | PR | 18s | 失败；PR #11 |
+| [ci #29](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39908580058) | PR | 9s | 失败；PR #11 |
+| [ci #30](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39908604099) | PR | 14s | 失败；PR #11 |
+| [ci #31](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39909179966) | PR | 8s | 失败；PR #11 |
+| [ci #32](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39909638978) | PR | 20s | 失败；PR #11 |
+| [ci #33](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39910074266) | PR | 15s | 失败；PR #11 |
+| [ci #34](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39910096213) | PR | 9s | 失败；PR #11 |
+| [ci #35](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39910150620) | PR | 9s | 失败；PR #11 |
+| [ci #36](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39910789708) | PR | 17s | 失败；PR #11 |
+| [ci #37](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39912522672) | PR | 17s | 失败；PR #4 |
+| [ci #38](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39913190130) | PR | 19s | 通过；PR #4 |
+| [ci #39](https://github.com/workonemptymirror/ops-lab1-10/actions/runs/39915507803) | push | 27s | 通过；main |
 
-这 19 次运行的时长范围为 8～49 秒，中位数为 17 秒，平均约 18.8 秒。失败运行可能在格式检查等较早步骤退出，PR 不打包而 main push 包含打包，因此该汇总仅描述本次观测，不能直接解释为测试耗时或 gate 带来的纯等待成本；样本量小，共享 runner 负载和排队也可能影响反馈时间。
+这 39 条运行记录的时长范围为 8～49 秒，中位数为 17 秒，平均约 17.3 秒。失败运行可能在格式检查等较早步骤退出，PR 不打包而 main push 包含打包，因此该汇总仅描述本次观测，不能直接解释为测试耗时或 gate 带来的纯等待成本；样本量小，共享 runner 负载和排队也可能影响反馈时间。
 
 ## 6. 分析问题
 
@@ -180,7 +203,10 @@ go=go1.26.9
 
 **问题 1：gate 的收益与成本。** 两轮演练中，gate 拦住了什么，没有拦住什么？用第 5 节的时间线计算：第一轮因失败多花了多少时间，其中等待 `ci` 的时间和人工修改的时间各占多少？一次 `ci` 大约需要多久，在“提交到发布的间隔”中占多大比例？第二轮补充测试之后，还有哪类问题是测试本身无法发现的？
 
-<填写>
+所用数据：第 5 节 PR #4 时间线、ci #37（17 秒、失败）、ci #38（19 秒、通过）、ci #39（27 秒、通过），以及 PR #8 的提交到发布时间间隔 24 分 9 秒（1449 秒）。
+
+第一轮的自动化测试发现了单周与双周被误判为冲突的问题，最终移除故意缺陷并保留测试后，PR #4 的 ci #38 和 main 的 ci #39 均通过，证明代码层面的失败能够被检测、修复能够被复测。自动化检查不等于合并门禁有效：PR #9 在 PR CI 失败时仍被合入 main，说明当时的必需检查、规则生效范围或绕过权限需要核实，不能据此声称 gate 始终拦住了失败代码。第二轮已确认 PR #6 有失败和通过的运行，但“缺陷先通过、补测试再失败”的阶段证据尚未完整，因此目前只能说明测试约束了已覆盖的行为，不能认定已验证全部演练环节。PR #4 从创建到合并历时 27 小时 41 分 7 秒，最后一组失败与通过运行的触发时间相隔 6 分 33 秒，其中记录到的两次运行时长合计 36 秒；由于缺少精确结束与推送时间，不能精确拆分失败增加的耗时、人工修改时间和排队等待时间。用实际的 PR #8 作为同一改动的例子，其 PR ci #16 为 16 秒、main ci #17 原始尝试为 19 秒，两次合计 35 秒，约占该 PR 提交到发布间隔 1449 秒的 2.4%，该比例不包含发布工作流、重跑及其他等待。第 5 节的 39 条 CI 记录平均约 17.3 秒，但事件、失败步骤和共享 runner 条件不同，不能据此推断所有改动都需要同样的反馈时间。即使补充了单双周测试，需求定义错误、未覆盖的边界输入、真实环境中的并发与性能问题仍可能遗漏，制品被替换或权限被绕过等问题也需要发布校验和权限规则共同约束。上述结论仅适用于本组已采集的小样本与实际配置，精确成本拆分和门禁有效性仍需相应时间记录及规则证据支持。
+
 
 **问题 2：PR 中的构建与 main 上的构建。** 在 PR 触发的运行日志中，`github.sha` 与 `pull_request.head.sha` 是否相同？它们能否在 main 的历史中找到？答案与合并方式有关，请写明本组使用的方式。合并之后，main 上这次改动的提交号是哪个？据此说明，为什么待发布的制品只能从 main 上的提交或 tag 构建。
 
