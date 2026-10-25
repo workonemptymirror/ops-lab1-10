@@ -39,6 +39,7 @@ func weeksOverlap(a, b Weeks) bool {
 	if a == AllWeeks || b == AllWeeks {
 		return true
 	}
+	// BUG: Single week dianggap bentrok dengan Double week
 	return a == b
 }
 
