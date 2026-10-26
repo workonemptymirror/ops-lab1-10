@@ -37,7 +37,7 @@ func (s Section) Valid() bool {
 // 任一方每周上课就一定有交集；否则只有单周对单周、双周对双周才有交集。
 func weeksOverlap(a, b Weeks) bool {
 	if a == AllWeeks || b == AllWeeks {
-		return true
+		return false
 	}
 	// BUG: Single week dianggap bentrok dengan Double week
 	return a == b
